@@ -17,13 +17,20 @@ graph TD
     State --> CriticChain[Critic Chain] --> State
     State --> StreamlitUI[Streamlit UI]
 ```
+## ⚙️ How It Works
 
-**Pipeline:**
-1. **Search Agent** — queries the Tavily API (`max_results=5`) for relevant sources.
-2. **Reader Agent** — scrapes target URLs with BeautifulSoup4 (spoofed headers, 8s timeout, boilerplate stripped, 3,000-word cap per page).
-3. **Writer Chain** — synthesizes a Markdown report (summary, key findings, conclusion, bibliography).
-4. **Critic Chain** — scores the report (0–10) and returns structured JSON feedback (strengths, gaps, verdict).
-5. **Streamlit UI** — displays and lets users download the final report.
+The system processes your research topic in five coordinated stages:
+
+**1. Shared State Memory** — A centralized `state = {}` dictionary (blackboard pattern) coordinates all data across agents and chains, tracking `search_results`, `scraped_content`, `report`, and `feedback`.
+
+**2. Search Agent** — Built with LangChain's `create_agent`, the Mistral-powered agent reasons over and invokes the custom `web_search` tool, querying the **Tavily Search API** with `max_results=5` for high-precision results within a controlled context budget.
+
+**3. Reader Agent** — Ingests target URLs from shared state and deep-scrapes each page using **BeautifulSoup4**. Employs spoofed browser headers to bypass bot detection, an 8-second timeout for resiliency, aggressive boilerplate stripping (`<script>`, `<nav>`, `<footer>`), and a hard 3,000-word cap per page to prevent context-window overflow.
+
+**4. Writer Chain** — An LCEL pipeline that synthesizes all scraped findings into a structured Markdown report covering an Executive Summary, Key Findings (minimum 3 themes), Conclusion, and a Bibliography referencing original sources.
+
+**5. Critic Chain** — Independently audits the generated report and returns structured JSON feedback containing a score out of 10, identified strengths, areas of improvement, and a single-sentence editorial verdict.
+
 
 ## 💻 Tech Stack
 
