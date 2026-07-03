@@ -48,7 +48,3 @@ multi_agent_system/
 ├── pipeline.py           # Orchestration & shared state
 └── app.py                # Streamlit dashboard
 ```
-
-## 🔒 Security
-
-`.env` and `.venv/` are excluded via `.gitignore` — never commit API keys.
