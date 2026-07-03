@@ -1,6 +1,6 @@
 # Multi Agent AI Research System
 
-An agentic workflow that automates web research — searching, scraping, synthesizing, and critiquing reports on any topic. Built with **LangChain (LCEL)**, **Mistral AI**, and **Streamlit**.
+An agentic workflow that automates web research like searching, scraping, synthesizing, and critiquing reports on any topic. Built with **LangChain (LCEL)**, **Mistral AI**, and **Streamlit**.
 
 ## 🛠️ Architecture
 
